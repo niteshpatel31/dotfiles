@@ -1,461 +1,209 @@
-# Dotfiles
-
-A modern and minimal Linux desktop and development environment configuration designed for productivity, performance, and keyboard-driven workflows.
-
-This repository contains carefully organized configuration files for terminal tools, desktop customization, and development utilities with a focus on maintainability and consistency.
-
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Components](#components)
-- [Repository Structure](#repository-structure)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Neovim Setup](#neovim-setup)
-- [Desktop Configuration](#desktop-configuration)
-- [Customization](#customization)
-- [Troubleshooting](#troubleshooting)
-- [Recommended Utilities](#recommended-utilities)
-- [Security Notes](#security-notes)
-- [Future Improvements](#future-improvements)
-- [License](#license)
-
----
-
-## Overview
-
-These dotfiles provide a complete Linux development environment built around:
-
-- A tiling window manager workflow
-- Keyboard-centric productivity
-- A modern Neovim development setup
-- Lightweight desktop utilities
-- Consistent terminal and UI theming
-
-The configuration is primarily optimized for Arch Linux and Arch-based distributions but can easily be adapted for Ubuntu, Debian, Fedora, and similar systems.
-
----
-
-## Components
-
-| Component | Description |
-|---|---|
-| Neovim | Main editor and IDE environment |
-| i3 | Tiling window manager |
-| Polybar | Status and workspace bar |
-| Kitty | GPU accelerated terminal emulator |
-| Rofi | Application launcher and menu system |
-| Dunst | Notification daemon |
-
----
-
-## Repository Structure
-
-```text
-.
-├── dunst/
-│   ├── dunst.conf
-│   └── dunstrc
-├── i3/
-│   └── config
-├── kitty/
-│   ├── kitty.conf
-│   ├── hyde.conf
-│   └── theme.conf
-├── nvim/
-│   ├── init.lua
-│   ├── lua/
-│   ├── plugin/
-│   ├── docs/
-│   ├── my_snippets/
-│   └── ...
-├── polybar/
-│   └── config.ini
-└── rofi/
-    ├── config.rasi
-    └── theme.rasi
-```
-
----
-
-## Features
-
-### Desktop Environment
-
-- Lightweight i3 tiling workflow
-- Custom Polybar integration
-- Rofi application launcher configuration
-- Dunst notification styling
-- Kitty terminal theming
-- Keyboard-first navigation system
-
-### Neovim Configuration
-
-- Lua-based modular architecture
-- Lazy.nvim plugin management
-- Built-in LSP support
-- Treesitter syntax highlighting
-- Snippet and autocompletion support
-- Fuzzy finder integration
-- Git tooling support
-- Competitive programming workflow enhancements
-- Markdown and LaTeX support
-- Terminal-first development experience
-
----
-
-## Requirements
-
-### Core Dependencies
-
-Install the following packages before configuring the environment.
-
-### Arch Linux
-
-```bash
-sudo pacman -S \
-  i3-wm \
-  polybar \
-  rofi \
-  dunst \
-  kitty \
-  neovim \
-  git \
-  unzip \
-  ripgrep \
-  fd \
-  fzf \
-  wget \
-  curl \
-  xclip \
-  feh \
-  playerctl \
-  picom
-```
-
-### Ubuntu / Debian
-
-```bash
-sudo apt install \
-  i3 \
-  polybar \
-  rofi \
-  dunst \
-  kitty \
-  neovim \
-  git \
-  unzip \
-  ripgrep \
-  fd-find \
-  fzf \
-  wget \
-  curl \
-  xclip \
-  feh \
-  playerctl \
-  picom
-```
-
----
-
-## Fonts
-
-Recommended fonts:
-
-- JetBrains Mono Nerd Font
-- FiraCode Nerd Font
-- Symbols Nerd Font
-
-Official source:
-
-- https://www.nerdfonts.com/
-
-Example installation on Arch Linux:
-
-```bash
-sudo pacman -S ttf-jetbrains-mono-nerd
-```
-
----
-
-## Installation
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-```
-
-### Backup Existing Configuration
-
-```bash
-mkdir -p ~/.config-backup
-
-mv ~/.config/i3 ~/.config-backup/ 2>/dev/null
-mv ~/.config/kitty ~/.config-backup/ 2>/dev/null
-mv ~/.config/nvim ~/.config-backup/ 2>/dev/null
-mv ~/.config/polybar ~/.config-backup/ 2>/dev/null
-mv ~/.config/rofi ~/.config-backup/ 2>/dev/null
-mv ~/.config/dunst ~/.config-backup/ 2>/dev/null
-```
-
-### Create Symbolic Links
-
-```bash
-mkdir -p ~/.config
-
-ln -sf ~/dotfiles/i3 ~/.config/i3
-ln -sf ~/dotfiles/kitty ~/.config/kitty
-ln -sf ~/dotfiles/nvim ~/.config/nvim
-ln -sf ~/dotfiles/polybar ~/.config/polybar
-ln -sf ~/dotfiles/rofi ~/.config/rofi
-ln -sf ~/dotfiles/dunst ~/.config/dunst
-```
-
-Using symbolic links allows all configuration changes to remain synchronized with the repository.
-
----
-
-## Neovim Setup
-
-### Additional Dependencies
-
-```bash
-sudo pacman -S \
-  nodejs \
-  npm \
-  python \
-  python-pip \
-  lua \
-  luarocks \
-  clang \
-  gcc
-```
-
-### Initial Launch
-
-```bash
-nvim
-```
-
-Plugins will automatically install during the first launch through Lazy.nvim.
-
----
-
-## Language Server Support
-
-Recommended language servers:
-
-| Language | Server |
-|---|---|
-| C / C++ | clangd |
-| Python | pyright |
-| JavaScript / TypeScript | tsserver |
-| Lua | lua-language-server |
-| Bash | bash-language-server |
-
-Install language servers using Mason or the system package manager.
-
----
-
-## Desktop Configuration
-
-### Reload i3
-
-```text
-Mod + Shift + r
-```
-
-### Exit i3
-
-```text
-Mod + Shift + e
-```
-
-Default modifier key:
-
-```text
-Super / Windows Key
-```
-
-### Launch Polybar
-
-```bash
-polybar main
-```
-
-### Launch Rofi
-
-```bash
-rofi -show drun
-```
-
-### Restart Dunst
-
-```bash
-killall dunst && dunst &
-```
-
-### Launch Kitty
-
-```bash
-kitty
-```
-
----
-
-## Updating the Configuration
-
-```bash
-cd ~/dotfiles
-git pull
-```
-
-Because symbolic links are used, updates are immediately reflected in the active configuration.
-
----
-
-## Recommended Utilities
-
-Optional tools that integrate well with this environment:
-
-```bash
-sudo pacman -S \
-  bat \
-  eza \
-  btop \
-  zoxide \
-  tmux \
-  lazygit
-```
-
----
-
-## Customization
-
-You can customize:
-
-- Themes and colors
-- Window manager keybindings
-- Polybar modules
-- Notification appearance
-- Terminal configuration
-- Neovim plugins and mappings
-- Fonts and icon sets
-
-Primary configuration files:
-
-| Component | Configuration File |
-|---|---|
-| i3 | `i3/config` |
-| Polybar | `polybar/config.ini` |
-| Kitty | `kitty/kitty.conf` |
-| Rofi | `rofi/config.rasi` |
-| Dunst | `dunst/dunstrc` |
-| Neovim | `nvim/init.lua` |
-
----
-
-## Troubleshooting
-
-### Neovim Plugins Not Installing
-
-Inside Neovim:
-
-```vim
-:Lazy sync
-```
-
-### Missing Icons
-
-Ensure Nerd Fonts are installed correctly and restart the terminal.
-
-### Polybar Not Appearing
-
-Check active monitor names:
-
-```bash
-xrandr
-```
-
-Update monitor settings inside:
-
-```text
-polybar/config.ini
-```
-
-### Rofi Theme Issues
-
-```bash
-rofi-theme-selector
-```
-
----
-
-## Screenshots
-
-Screenshots can be added later.
-
-Example:
-
-```markdown
-![desktop](./assets/desktop.png)
-```
-
----
-
-## Security Notes
-
-Before publishing the repository:
-
-- Remove API keys
-- Remove authentication tokens
-- Remove SSH private keys
-- Remove personal file paths
-- Review shell history references
-
-Always verify repository changes before pushing:
-
-```bash
-git status
-```
-
----
-
-## Future Improvements
-
-Planned additions:
-
-- Wayland support
-- Hyprland configuration
-- Automated installation scripts
-- Shell configuration integration
-- Improved theme management
-- Tmux workflow integration
-- Screenshot automation
-
----
-
-## Quick Setup
-
-```bash
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
-
-mkdir -p ~/.config
-
-ln -sf ~/dotfiles/i3 ~/.config/i3
-ln -sf ~/dotfiles/kitty ~/.config/kitty
-ln -sf ~/dotfiles/nvim ~/.config/nvim
-ln -sf ~/dotfiles/polybar ~/.config/polybar
-ln -sf ~/dotfiles/rofi ~/.config/rofi
-ln -sf ~/dotfiles/dunst ~/.config/dunst
-
-nvim
-```
-
----
-
+<div align="center">
+<p>
+    <a>
+      <img alt="Linux" src="https://img.shields.io/badge/Linux-%23.svg?style=flat-square&logo=linux&color=FCC624&logoColor=black" />
+    </a>
+    <a>
+      <img alt="macOS" src="https://img.shields.io/badge/macOS-%23.svg?style=flat-square&logo=apple&color=000000&logoColor=white" />
+    </a>
+    <a>
+      <img alt="Windows" src="https://img.shields.io/badge/Windows-%23.svg?style=flat-square&logo=windows&color=0078D6&logoColor=white" />
+    </a>
+    <a href="https://github.com/neovim/neovim/releases/tag/stable">
+      <img src="https://img.shields.io/badge/Neovim-0.12.2-blueviolet.svg?style=flat-square&logo=Neovim&logoColor=green" alt="Neovim minimum version"/>
+    </a>
+    <a href="https://github.com/jdhao/nvim-config/search?l=vim-script">
+      <img src="https://img.shields.io/github/languages/top/jdhao/nvim-config" alt="Top languages"/>
+    </a>
+    <a href="https://github.com/jdhao/nvim-config/graphs/commit-activity">
+      <img src="https://img.shields.io/github/commit-activity/m/jdhao/nvim-config?style=flat-square" />
+    </a>
+    <a href="https://github.com/jdhao/nvim-config/graphs/contributors">
+      <img src="https://img.shields.io/github/contributors/jdhao/nvim-config?style=flat-square" />
+    </a>
+    <a>
+      <img src="https://img.shields.io/github/repo-size/jdhao/nvim-config?style=flat-square" />
+    </a>
+    <a href="https://github.com/jdhao/nvim-config/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/jdhao/nvim-config?style=flat-square&logo=GNU&label=License" alt="License"/>
+    </a>
+    <a href="https://deepwiki.com/jdhao/nvim-config">
+      <img src="https://deepwiki.com/badge.svg" alt="deepwiki"/>
+    </a>
+</p>
+</div>
+
+# Introduction
+
+This repo hosts my Nvim configuration for Linux, macOS, and Windows.
+`init.lua` is the config entry point for terminal Nvim,
+and `ginit.vim` is the additional config file for [GUI client of Nvim](https://github.com/neovim/neovim/wiki/Related-projects#gui).
+
+My configurations are heavily documented to make it as clear as possible.
+While you can clone the whole repository and use it, it is not recommended though.
+Good configurations are personal. Everyone should have his or her unique config file.
+You are encouraged to copy from this repo the part you want and add it to your own config.
+
+To reduce the possibility of breakage, **this config is only maintained for [the latest nvim stable release](https://github.com/neovim/neovim/releases/tag/stable).
+No effort is spent on maintaining backward compatibility.**
+
+# Install and setup
+
+See [doc here](docs/README.md) on how to install Nvim's dependencies, Nvim itself,
+and how to set up on different platforms (Linux, macOS, and Windows).
+
+# Features #
+
++ Plugin management via [Lazy.nvim](https://github.com/folke/lazy.nvim).
++ Code, snippet, word auto-completion via [nvim-cmp](https://github.com/hrsh7th/nvim-cmp).
++ Language server protocol (LSP) support via [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
++ Git integration via [vim-fugitive](https://github.com/tpope/vim-fugitive).
++ Better escaping from insert mode via [better-escape.vim](https://github.com/nvim-zh/better-escape.vim).
++ Ultra-fast project-wide fuzzy searching via [fzf-lua](https://github.com/ibhagwan/fzf-lua).
++ Faster code commenting via [vim-commentary](https://github.com/tpope/vim-commentary).
++ Faster matching pair insertion and jump via [nvim-autopairs](https://github.com/windwp/nvim-autopairs).
++ Smarter and faster matching pair management (add, replace or delete) via [vim-sandwich](https://github.com/machakann/vim-sandwich).
++ Fast buffer jump via [hop.nvim](https://github.com/smoka7/hop.nvim).
++ Powerful snippet insertion via [Ultisnips](https://github.com/SirVer/ultisnips).
++ Beautiful statusline via [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim).
++ File tree explorer via [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua).
++ Better quickfix list with [nvim-bqf](https://github.com/kevinhwang91/nvim-bqf).
++ Show search index and count with [nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens).
++ User-defined mapping hint via [which-key.nvim](https://github.com/folke/which-key.nvim).
++ Asynchronous code execution via [asyncrun.vim](https://github.com/skywind3000/asyncrun.vim).
++ Code highlighting via [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter).
++ Code editing using true nvim inside browser via [firenvim](https://github.com/glacambre/firenvim).
++ Beautiful colorscheme via [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) and other colorschemes.
++ Markdown previewing via [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim)
++ LaTeX editing and previewing via [vimtex](https://github.com/lervag/vimtex)
++ Animated GUI style notification via [nvim-notify](https://github.com/rcarriga/nvim-notify).
++ Tags navigation via [vista](https://github.com/liuchengxu/vista.vim).
++ Code folding with [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo) and [statuscol.nvim](https://github.com/luukvbaal/statuscol.nvim)
++ ......
+
+# UI Demo
+
+For more UI demos, check [here](https://github.com/jdhao/nvim-config/issues/15).
+
+## Start screen with dashboard-nvim
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16662357/183256752-fb23b215-a6b8-4646-beed-9999f52d53f1.png" width="800">
+</p>
+
+## File fuzzy finding using fzf-lua
+
+<p align="center">
+<img src="https://github.com/user-attachments/assets/3199e35d-121a-487b-bfd1-58eb69b0b48a" width="800">
+</p>
+
+## Code autocompletion with nvim-cmp
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16662357/128590006-0fc1451f-fac1-49b2-bb95-8aba21bfa44e.gif" width="800">
+</p>
+
+## Git add, commit and push via fugitive.vim
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16662357/128590833-aaa05d53-19ef-441d-a5a9-ba1bbd3936c1.gif" width="800">
+</p>
+
+## Tags
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16662357/128589584-4036a1a2-2e0a-4bbe-8aaf-ff8b91644648.jpg" width="800">
+</p>
+
+## Cursor jump via hop.nvim
+
+Go to a string starting with `se`
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16662357/139459219-8a7e6ac4-1d24-4008-a370-b56773d7cb85.gif" width="800">
+</p>
+
+## GUI-style notification with nvim-notify
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16662357/128589873-aadb8264-1098-4834-9876-fa66a309be05.gif" width="800">
+</p>
+
+## code folding with nvim-ufo and statuscol.nvim
+
+<p align="center">
+<img src="https://github.com/user-attachments/assets/a01a56b2-7c91-43de-b305-f2fbaa81dcec" width="800">
+</p>
+
+# Shortcuts
+
+Some of the shortcuts I use frequently are listed here. In the following shortcuts, `<leader>` represents ASCII character `,`.
+
+| Shortcut          | Mode          | platform        | Description                                                              |
+|-------------------|---------------|-----------------|--------------------------------------------------------------------------|
+| `<leader>ff`      | Normal        | Linux/macOS/Win | Fuzzy file searching in a floating window                                |
+| `<leader>fh`      | Normal        | Linux/macOS/Win | Fuzzy help file grepping in a floating window                            |
+| `<leader>fg`      | Normal        | Linux/macOS/Win | Fuzzy project-wide grepping in a floating window                         |
+| `<leader>ft`      | Normal        | Linux/macOS/Win | Fuzzy buffer tag searching in a floating window                          |
+| `<leader>fb`      | Normal        | Linux/macOS/Win | Fuzzy buffer switching in a floating window                              |
+| `<leader><Space>` | Normal        | Linux/macOS/Win | Remove trailing white spaces                                             |
+| `<leader>v`       | Normal        | Linux/macOS/Win | Reselect last pasted text                                                |
+| `<leader>ev`      | Normal        | Linux/macOS/Win | Edit Nvim config in a new tabpage                                        |
+| `<leader>sv`      | Normal        | Linux/macOS/Win | Reload Nvim config                                                       |
+| `<leader>q`       | Normal        | Linux/macOS/Win | Quit current window                                                      |
+| `<leader>Q`       | Normal        | Linux/macOS/Win | Quit all window and close Nvim                                           |
+| `<leader>w`       | Normal        | Linux/macOS/Win | Save current buffer content                                              |
+| `<leader>y`       | Normal        | Linux/macOS/Win | Copy the content of entire buffer to default register                    |
+| `<leader>cl`      | Normal        | Linux/macOS/Win | Toggle cursor column                                                     |
+| `<leader>cd`      | Normal        | Linux/macOS/Win | Change current working directory to to the dir of current buffer         |
+| `<space>t`        | Normal        | Linux/macOS/Win | Toggle tag window (show project tags in the right window)                |
+| `<leader>gs`      | Normal        | Linux/macOS/Win | Show Git status result                                                   |
+| `<leader>gw`      | Normal        | Linux/macOS/Win | Run Git add for current file                                             |
+| `<leader>gc`      | Normal        | Linux/macOS/Win | Run git commit                                                           |
+| `<leader>gpl`     | Normal        | Linux/macOS/Win | Run git pull                                                             |
+| `<leader>gpu`     | Normal        | Linux/macOS/Win | Run git push                                                             |
+| `<leader>gbd`     | Normal        | Linux/macOS/Win | Delete a branch                                                          |
+| `<leader>gbn`     | Normal        | Linux/macOS/Win | Create a new branch                                                      |
+| `<leader>gl`      | Normal/Visual | Linux/macOS/Win | Get perm link for current/visually-select lines                          |
+| `<leader>gbr`     | Normal        | macOS           | Browse current git repo in browser                                       |
+| `<leader>gb`      | Visual        | macOS           | Blame current line                                                       |
+| `<F9>`            | Normal        | Linux/macOS/Win | Compile&run current source file (for C++, LaTeX, Lua, Python)            |
+| `<F11>`           | Normal        | Linux/macOS/Win | Toggle spell checking                                                    |
+| `<F12>`           | Normal        | Linux/macOS/Win | Toggle paste mode                                                        |
+| `\x`              | Normal        | Linux/macOS/Win | Close location or quickfix window                                        |
+| `\d`              | Normal        | Linux/macOS/Win | Close current buffer and go to previous buffer                           |
+| `{count}gb`       | Normal        | Linux/macOS/Win | Go to buffer `{count}` or next buffer in the buffer list.                |
+| `{operator}iB`    | Normal        | Linux/macOS/Win | Operate in the whole buffer, `{operator}` can be `v`, `y`, `c`, `d` etc. |
+| `Alt-k`           | Normal        | Linux/macOS/Win | Move current line or selected lines up                                   |
+| `Alt-j`           | Normal        | Linux/macOS/Win | Move current line or selected lines down                                 |
+| `ctrl-u`          | Insert        | Linux/macOS/Win | Turn word under cursor to upper case                                     |
+| `ctrl-t`          | Insert        | Linux/macOS/Win | Turn word under cursor to title case                                     |
+| `jk`              | Insert        | Linux/macOS/Win | Return to Normal mode without lagging                                    |
+| `ZR`              | Normal        | Linux/macOS/Win | Restart nvim without quitting                                    |
+
+
+# Custom commands
+
+In addition to commands provided by various plugins, I have also created some custom commands for personal use.
+
+| command      | description                                                             | example                        |
+|--------------|-------------------------------------------------------------------------|--------------------------------|
+| `Redir`      | capture command output to a tabpage for easier inspection.              | `Redir hi`                     |
+| `Edit`       | edit multiple files at the same time, supports globing                  | `Edit *.vim`                   |
+| `Datetime`   | print current date and time or convert Unix time stamp to date and time | `Datetime 12345` or `Datetime` |
+| `JSONFormat` | format a JSON file                                                      | `JSONFormat`                   |
+| `CopyPath`   | copy current file path to clipboard                                     | `CopyPath relative`            |
+
+# Contributing
+
+If you find anything that needs improving, do not hesitate to point it out or create a PR.
+
+If you come across an issue, you can first use `:checkhealth` command provided by `nvim` to trouble-shoot yourself.
+Please read carefully the messages provided by health check.
+
+If you still have an issue, [open a new issue](https://github.com/jdhao/nvim-config/issues).
+
+# Further readings
+
+Some of the resources that I find helpful in mastering Nvim is documented [here](docs/nvim_resources.md).
+You may also be interested in my posts on configuring Nvim [here](https://jdhao.github.io/categories/Nvim/).
