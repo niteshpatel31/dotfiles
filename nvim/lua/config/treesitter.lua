@@ -1,22 +1,43 @@
--- a list of filetypes to install treesitter parsers and queries
 local nvim_treesitter = require("nvim-treesitter")
 
 local ensure_installed = {
+  -- Systems
+  "c",
   "cpp",
-  "diff",
   "go",
   "gomod",
   "gosum",
+  "rust",
+
+  -- MERN / Web
   "javascript",
-  "json",
-  "lua",
-  "markdown",
-  "python",
-  "sh",
-  "toml",
   "typescript",
-  "vim",
+  "tsx",
+  "html",
+  "css",
+  "scss",
+  "json",
+
+  -- Java / Spring
+  "java",
+
+  -- Python / scripting
+  "python",
+  "bash",
+  "sh",
+  "lua",
+
+  -- Configuration
+  "toml",
   "yaml",
+
+  -- Documentation
+  "markdown",
+  "vim",
+  "vimdoc",
+
+  -- Misc
+  "diff",
   "zsh",
 }
 
@@ -26,36 +47,74 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(args)
     local ft = vim.bo[args.buf].filetype
     local lang = vim.treesitter.language.get_lang(ft)
+
     if lang == nil then
       return
     end
 
-    -- check if parser is available
-    local is_parser_available = vim.treesitter.language.add(lang)
-    if not is_parser_available then
-      local available_langs = vim.g.ts_available or nvim_treesitter.get_available()
-      if not vim.g.ts_available then
-        vim.g.ts_available = available_langs
-      end
+    -- Install parser if it does not exist.
+    if not vim.treesitter.language.add(lang) then
+      local available_langs = vim.g.ts_available
+        or nvim_treesitter.get_available()
+
+      vim.g.ts_available = available_langs
 
       if vim.tbl_contains(available_langs, lang) then
-        -- install treesitter parsers and queries
-        local install_msg = string.format("Installing parsers and queries for %s", lang)
-        vim.print(install_msg)
-        require("nvim-treesitter").install(lang)
+        vim.notify(
+          "Installing Treesitter parser: " .. lang,
+          vim.log.levels.INFO
+        )
+
+        nvim_treesitter.install(lang)
       end
     end
 
+    -- Start Treesitter.
     if vim.treesitter.language.add(lang) then
-      -- start treesitter highlighting
       vim.treesitter.start(args.buf, lang)
-
-      -- the following two statements will enable treesitter folding
-      -- vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
-      -- vim.wo[0][0].foldmethod = "expr"
-
-      -- enable treesitter-based indentation
-      -- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end
   end,
 })
+
+-- Treesitter textobjects
+require("nvim-treesitter-textobjects").setup({
+  select = {
+    lookahead = true,
+
+    selection_modes = {
+      ["@function.inner"] = "V",
+      ["@function.outer"] = "V",
+      ["@class.inner"] = "V",
+      ["@class.outer"] = "V",
+      ["@parameter.outer"] = "v",
+    },
+
+    include_surrounding_whitespace = false,
+  },
+})
+
+-- Textobject keymaps
+vim.keymap.set({ "x", "o" }, "af", function()
+  require("nvim-treesitter-textobjects.select")
+    .select_textobject("@function.outer", "textobjects")
+end)
+
+vim.keymap.set({ "x", "o" }, "if", function()
+  require("nvim-treesitter-textobjects.select")
+    .select_textobject("@function.inner", "textobjects")
+end)
+
+vim.keymap.set({ "x", "o" }, "ac", function()
+  require("nvim-treesitter-textobjects.select")
+    .select_textobject("@class.outer", "textobjects")
+end)
+
+vim.keymap.set({ "x", "o" }, "ic", function()
+  require("nvim-treesitter-textobjects.select")
+    .select_textobject("@class.inner", "textobjects")
+end)
+
+vim.keymap.set({ "x", "o" }, "as", function()
+  require("nvim-treesitter-textobjects.select")
+    .select_textobject("@local.scope", "locals")
+end)

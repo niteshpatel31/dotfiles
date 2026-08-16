@@ -74,6 +74,9 @@ M.colorscheme_conf = {
   kanagawa = function()
     use_theme("kanagawa-dragon")
   end,
+  catppuccin = function()
+    use_theme("catppuccin")
+  end,
   modus = function()
     use_theme("modus")
   end,
@@ -137,7 +140,7 @@ M.rand_colorscheme = function()
 end
 
 -- M.rand_colorscheme()
-M.colorscheme_conf.github_dark_dimmed()
+M.colorscheme_conf.catppuccin()
 -- enable the experiment UI
 require("vim._core.ui2").enable {
   enable = true,

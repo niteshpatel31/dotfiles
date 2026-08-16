@@ -60,7 +60,7 @@ local plugin_specs = {
     formatters_by_ft = {
       c   = { "clang_format" },
       cpp = { "clang_format" },
-      kotlin = {"ktlint"},
+      kotlin = {"ktlint"}
     },
     format_on_save = {
       timeout_ms   = 500,

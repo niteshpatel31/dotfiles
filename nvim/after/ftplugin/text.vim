@@ -1,1 +1,1 @@
-set colorcolumn=
+set colorcolumn=100

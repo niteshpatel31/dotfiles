@@ -1,20 +1,43 @@
--- settings for lua-language-server can be found on https://luals.github.io/wiki/settings/
----@type vim.lsp.Config
 return {
-  ---@type lspconfig.settings.lua_ls
+  cmd = {
+    "lua-language-server",
+  },
+
+  filetypes = {
+    "lua",
+  },
+
+  root_markers = {
+    ".luarc.json",
+    ".luarc.jsonc",
+    ".luacheckrc",
+    ".git",
+  },
+
   settings = {
     Lua = {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = "LuaJIT",
       },
-      hint = {
-        enable = true,
-      },
-      workspace = {
-        library = {
-          vim.env.VIMRUNTIME .. "/lua",
+
+      diagnostics = {
+        globals = {
+          "vim",
         },
+      },
+
+      workspace = {
+        checkThirdParty = false,
+
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+
+      telemetry = {
+        enable = false,
+      },
+
+      format = {
+        enable = false,
       },
     },
   },

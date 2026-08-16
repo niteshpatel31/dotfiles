@@ -9,4 +9,13 @@
 -- }
 --
 -- If you have no custom plugins yet, NvChad requires this file to return an empty table.
-return {}
+return {
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = false,
+    priority = 1000,
+  },
+
+  -- your other plugins...
+}
+-- return {}
