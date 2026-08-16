@@ -54,20 +54,22 @@ local plugin_specs = {
     "neovim/nvim-lspconfig",
   },
   {
-  "stevearc/conform.nvim",
-  event = "BufWritePre",
-  opts = {
-    formatters_by_ft = {
-      c   = { "clang_format" },
-      cpp = { "clang_format" },
-      kotlin = {"ktlint"}
-    },
-    format_on_save = {
-      timeout_ms   = 500,
-      lsp_fallback = true,
+    "stevearc/conform.nvim",
+    event = "BufWritePre",
+    opts = {
+      formatters_by_ft = {
+        c = { "clang_format" },
+        cpp = { "clang_format" },
+        java = { "google-java-format" },
+        kotlin = { "ktlint" },
+        lua = { "stylua" },
+      },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
     },
   },
-},
   {
     "dnlhc/glance.nvim",
     config = function()
@@ -184,12 +186,15 @@ local plugin_specs = {
   {
     "nvim-mini/mini.icons",
     version = false,
+    lazy = false,
     config = function()
+      local icons = require("mini.icons")
+      icons.setup()
+
       -- this is the compatibility fix for plugins that only support nvim-web-devicons
-      require("mini.icons").mock_nvim_web_devicons()
-      require("mini.icons").tweak_lsp_kind()
+      icons.mock_nvim_web_devicons()
+      icons.tweak_lsp_kind()
     end,
-    lazy = true,
   },
 
   {
@@ -721,6 +726,7 @@ local plugin_specs = {
   {
     "nvim-tree/nvim-tree.lua",
     keys = { "<space>s" },
+    dependencies = { "nvim-mini/mini.icons" },
     config = function()
       require("config.nvim-tree")
     end,

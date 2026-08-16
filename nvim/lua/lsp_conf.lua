@@ -21,6 +21,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     map("n", "gd", function()
+      if client.name == "jdtls" then
+        vim.cmd("Glance declarations")
+        return
+      end
+
       vim.lsp.buf.definition {
         on_list = function(options)
           -- custom logic to avoid showing multiple definition when you use this style of code:
@@ -105,11 +110,12 @@ vim.lsp.config("*", {
 
 -- A mapping from lsp server name to the executable name
 local enabled_lsp_servers = {
-  pyright = "delance-langserver",
+  pyright = "pyright-langserver",
   ruff = "ruff",
   lua_ls = "lua-language-server",
   -- ltex = "ltex-ls",
   clangd = "clangd",
+  jdtls = "jdtls",
   kotlin_language_server = "kotlin-language-server",
   vimls = "vim-language-server",
   bashls = "bash-language-server",
@@ -117,7 +123,7 @@ local enabled_lsp_servers = {
   gopls = "gopls",
   -- the server can be install via homebrew: brew install golangci-lint-langserver
   -- golangci-lint also needs to be installed: https://github.com/golangci/golangci-lint
-  golangci_lint_ls = "golangci-lint-langserver",
+  -- golangci_lint_ls = "golangci-lint-langserver",
 
   -- to install codebook, run `brew install codebook-lsp`
   -- codebook = "codebook-lsp"

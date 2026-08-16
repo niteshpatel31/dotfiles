@@ -39,5 +39,3 @@ require("diagnostic-conf")
 
 -- colorscheme settings
 require("ui")
-
-require("config.nvim-web-devicons")

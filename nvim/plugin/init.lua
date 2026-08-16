@@ -1,73 +1,64 @@
 return {
-    {
-  "stevearc/conform.nvim",
+  -- ============================================================
+  -- Java / Spring
+  -- ============================================================
 
-  event = { "BufWritePre" },
+  {
+    "mfussenegger/nvim-jdtls",
 
-  opts = {
-    formatters_by_ft = {
-      lua = { "stylua" },
+    ft = { "java" },
 
-      -- You can add these later
-      cpp = { "clang_format" },
-      c = { "clang_format" },
-
-      python = { "ruff_format" },
-
-      javascript = { "prettier" },
-      javascriptreact = { "prettier" },
-      typescript = { "prettier" },
-      typescriptreact = { "prettier" },
-
-      json = { "prettier" },
-      html = { "prettier" },
-      css = { "prettier" },
-    },
-
-    format_on_save = {
-      timeout_ms = 1000,
-      lsp_format = "fallback",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
     },
   },
 
-  keys = {
-    {
-      "<leader>f",
-      function()
-        require("conform").format({
-          async = true,
-          lsp_format = "fallback",
-        })
-      end,
-      mode = { "n", "v" },
-      desc = "Format buffer",
-    },
-  },
-  },
+  -- ============================================================
+  -- File icons
+  -- ============================================================
+
   {
     "nvim-tree/nvim-web-devicons",
+
     lazy = false,
+
+    config = function()
+      require("nvim-web-devicons").setup({
+        default = true,
+        color_icons = true,
+      })
+    end,
   },
+
+  -- ============================================================
+  -- File explorer
+  -- ============================================================
+
+  {
+    "nvim-tree/nvim-tree.lua",
+
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
+
+  -- ============================================================
+  -- Treesitter
+  -- ============================================================
+
   {
     "nvim-treesitter/nvim-treesitter",
+
     build = ":TSUpdate",
   },
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-    },
-  },
-
-  {
-    "nvim-tree/nvim-web-devicons",
-  },
-
-  {
-    "nvim-tree/nvim-tree.lua",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
     },
   },
 }
