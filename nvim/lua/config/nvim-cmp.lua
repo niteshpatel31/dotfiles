@@ -46,6 +46,9 @@ cmp.setup {
     { name = "buffer", keyword_length = 2 }, -- for buffer word completion
   },
   completion = {
+    -- Ask completion sources after the first typed character.  This is
+    -- especially important for HTML/Emmet abbreviations such as `h`.
+    autocomplete = { cmp.TriggerEvent.TextChanged },
     keyword_length = 1,
     completeopt = "menu,noselect",
   },

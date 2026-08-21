@@ -9,6 +9,7 @@ return {
     "javascriptreact",
     "typescript",
     "typescriptreact",
+    "astro",
   },
 
   root_markers = {

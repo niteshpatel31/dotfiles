@@ -53,6 +53,12 @@ local plugin_specs = {
   {
     "neovim/nvim-lspconfig",
   },
+  -- Loads `jdt://` virtual files returned by JDTLS for JDK and dependency
+  -- classes, so Glance can preview and jump to their definitions.
+  {
+    "mfussenegger/nvim-jdtls",
+    lazy = false,
+  },
   {
     "stevearc/conform.nvim",
     event = "BufWritePre",
@@ -63,6 +69,11 @@ local plugin_specs = {
         java = { "google-java-format" },
         kotlin = { "ktlint" },
         lua = { "stylua" },
+        astro = { "prettier" },
+        bash = { "shfmt" },
+        sh = { "shfmt" },
+        zsh = { "shfmt" },
+        fish = { "fish_indent" },
       },
       format_on_save = {
         timeout_ms = 500,
@@ -75,7 +86,9 @@ local plugin_specs = {
     config = function()
       require("config.glance")
     end,
-    event = "VeryLazy",
+    -- LSP mappings are installed as soon as a server attaches.  Configure
+    -- Glance during startup so those mappings always have a ready target.
+    lazy = false,
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -332,7 +345,28 @@ local plugin_specs = {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
-    config = true,
+    config = function()
+      local npairs = require("nvim-autopairs")
+      npairs.setup {
+        check_ts = true,
+        map_cr = true,
+        map_bs = true,
+        ts_config = {
+          html = { "tag", "string" },
+        },
+      }
+      npairs.add_rules {
+        require("nvim-autopairs.rule")("<", ">", { "html", "javascriptreact", "typescriptreact" }),
+      }
+
+      -- Keep pairs working when a completion item is accepted (for example,
+      -- accepting an HTML/Emmet completion that inserts a snippet).
+      local ok, cmp = pcall(require, "cmp")
+      if ok then
+        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      end
+    end,
   },
 
   -- Comment plugin

@@ -25,7 +25,9 @@ keymap.set("n", "<leader>Q", "<cmd>qa!<cr>", { silent = true, desc = "quit nvim"
 
 --- CUSTOM KEYMAPS
 keymap.set("n", "<Space>fm", function()
-  require("conform").format({ async = true })
+  -- Use a configured external formatter when available, otherwise ask the
+  -- attached language server (HTML, CSS, JSON, and other LSP-only filetypes).
+  require("conform").format({ async = true, lsp_fallback = true })
 end, { desc = "Format buffer" })
 
 -- Telescope

@@ -13,6 +13,7 @@ local ensure_installed = {
   "javascript",
   "typescript",
   "tsx",
+  "astro",
   "html",
   "css",
   "scss",

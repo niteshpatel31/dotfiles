@@ -20,6 +20,26 @@ lint.linters_by_ft = {
   typescriptreact = {
     "eslint_d",
   },
+
+  astro = {
+    "eslint_d",
+  },
+
+  bash = {
+    "shellcheck",
+  },
+
+  sh = {
+    "shellcheck",
+  },
+
+  zsh = {
+    "shellcheck",
+  },
+
+  fish = {
+    "fish",
+  },
 }
 
 -- Run linting after leaving insert mode

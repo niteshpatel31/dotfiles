@@ -20,51 +20,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.keymap.set(mode, l, r, opts)
     end
 
-    map("n", "gd", function()
-      if client.name == "jdtls" then
-        vim.cmd("Glance declarations")
-        return
-      end
-
-      vim.lsp.buf.definition {
-        on_list = function(options)
-          -- custom logic to avoid showing multiple definition when you use this style of code:
-          -- `local M.my_fn_name = function() ... end`.
-          -- See also post here: https://www.reddit.com/r/neovim/comments/19cvgtp/any_way_to_remove_redundant_definition_in_lua_file/
-
-          -- vim.print(options.items)
-          local unique_defs = {}
-          local def_loc_hash = {}
-
-          -- each item in options.items contain the location info for a definition provided by LSP server
-          for _, def_location in pairs(options.items) do
-            -- use filename and line number to uniquelly indentify a definition,
-            -- we do not expect/want multiple definition in single line!
-            local hash_key = def_location.filename .. def_location.lnum
-
-            if not def_loc_hash[hash_key] then
-              def_loc_hash[hash_key] = true
-              table.insert(unique_defs, def_location)
-            end
-          end
-
-          options.items = unique_defs
-
-          -- set the location list
-          ---@diagnostic disable-next-line: param-type-mismatch
-          vim.fn.setloclist(0, {}, " ", options)
-
-          -- open the location list when we have more than 1 definitions found,
-          -- otherwise, jump directly to the definition
-          if #options.items > 1 then
-            vim.cmd.lopen()
-          else
-            vim.cmd([[silent! lfirst]])
-          end
-        end,
-      }
-    end, { desc = "go to definition" })
-    map("n", "<C-]>", vim.lsp.buf.definition)
+    -- Use Glance for every LSP-backed language, including Java.  It delegates
+    -- to the attached client(s), so it works with language-specific servers
+    -- without per-server mappings.
+    map("n", "gd", "<cmd>Glance definitions<cr>", { desc = "glance definitions" })
+    map("n", "<C-]>", "<cmd>Glance definitions<cr>", { desc = "glance definitions" })
     map("n", "K", function()
       vim.lsp.buf.hover {
         border = "single",
@@ -108,6 +68,17 @@ vim.lsp.config("*", {
   },
 })
 
+-- JDTLS returns JDK and dependency definitions as `jdt://` virtual files.
+-- nvim-jdtls supplies the BufReadCmd handler that fetches their source (or a
+-- decompiled view); this capability asks JDTLS to provide those contents.
+vim.lsp.config("jdtls", {
+  init_options = {
+    extendedClientCapabilities = {
+      classFileContentsSupport = true,
+    },
+  },
+})
+
 -- A mapping from lsp server name to the executable name
 local enabled_lsp_servers = {
   pyright = "pyright-langserver",
@@ -119,8 +90,15 @@ local enabled_lsp_servers = {
   kotlin_language_server = "kotlin-language-server",
   vimls = "vim-language-server",
   bashls = "bash-language-server",
+  fish_lsp = "fish-lsp",
   yamlls = "yaml-language-server",
   gopls = "gopls",
+  ts_ls = "typescript-language-server",
+  html = "vscode-html-language-server",
+  emmet_ls = "emmet-language-server",
+  cssls = "vscode-css-language-server",
+  astro = "astro-ls",
+  eslint = "vscode-eslint-language-server",
   -- the server can be install via homebrew: brew install golangci-lint-langserver
   -- golangci-lint also needs to be installed: https://github.com/golangci/golangci-lint
   -- golangci_lint_ls = "golangci-lint-langserver",
